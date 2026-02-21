@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { supabase } from './supabase'
 import ternoImg from './assets/terno-cinza.png'
+import logoImg from './assets/logo.png'
+import bgLogin from './assets/login-bg.jpg'
 
 const PADRINHO = {
   suit: 'Cinza Médio',
   tie: 'Prata'
 }
 
-// CORES INDIVIDUAIS (agora usando color_name do banco)
 const COLOR_MAP = {
   Vermelho: '#C1121F',
   Rubi: '#9B111E',
@@ -38,10 +39,8 @@ export default function App() {
   const [timeLeft, setTimeLeft] = useState({})
   const [colors, setColors] = useState([])
   const [gifts, setGifts] = useState([])
+  const [selectedGift, setSelectedGift] = useState(null)
 
-  // ==========================
-  // LOGIN
-  // ==========================
   const handleLogin = async () => {
     const { data, error } = await supabase
       .from('members')
@@ -57,9 +56,6 @@ export default function App() {
     setMember(data)
   }
 
-  // ==========================
-  // CONTAGEM
-  // ==========================
   useEffect(() => {
     const weddingDate = new Date('2026-06-15T18:00:00')
     const timer = setInterval(() => {
@@ -73,20 +69,12 @@ export default function App() {
     return () => clearInterval(timer)
   }, [])
 
-  // ==========================
-  // BUSCAR DADOS DO BANCO
-  // ==========================
   useEffect(() => {
     if (!member) return
 
     const fetchData = async () => {
-      const { data: colorData } = await supabase
-        .from('dress_colors')
-        .select('*')
-
-      const { data: giftData } = await supabase
-        .from('gifts')
-        .select('*')
+      const { data: colorData } = await supabase.from('dress_colors').select('*')
+      const { data: giftData } = await supabase.from('gifts').select('*')
 
       setColors(colorData || [])
       setGifts(giftData || [])
@@ -95,13 +83,9 @@ export default function App() {
     fetchData()
   }, [member])
 
-  // ==========================
-  // ESCOLHER COR (agora usando color_name)
-  // ==========================
   const chooseColor = async (colorId) => {
     if (member.role !== 'madrinha') return
 
-    // verifica se já escolheu alguma cor
     const alreadyChosen = colors.find(c => c.selected_by === member.id)
     if (alreadyChosen) {
       alert('Você já escolheu uma cor.')
@@ -117,25 +101,6 @@ export default function App() {
     setColors(data)
   }
 
-  // ==========================
-  // RESERVAR PRESENTE
-  // ==========================
-  const reserveGift = async (giftId) => {
-    await supabase
-      .from('gifts')
-      .update({
-        reserved: true,
-        reserved_by: member.id
-      })
-      .eq('id', giftId)
-
-    const { data } = await supabase.from('gifts').select('*')
-    setGifts(data)
-  }
-
-  // ==========================
-  // CONFIRMAR PRESENÇA
-  // ==========================
   const confirmPresence = async () => {
     await supabase
       .from('members')
@@ -150,33 +115,85 @@ export default function App() {
     letterSpacing: '1px'
   }
 
-  // ==========================
-  // TELA LOGIN
-  // ==========================
+  // LOGIN
   if (!member) {
     return (
-      <div style={{ padding: 80, textAlign: 'center' }}>
-        <h2>Área exclusiva para padrinhos e madrinhas</h2>
-        <input
-          placeholder="Digite seu telefone"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-          style={{ padding: 10, width: 250 }}
-        />
-        <br /><br />
-        <button
-          onClick={handleLogin}
+      <div
+        style={{
+          height: '100vh',
+          backgroundImage: `url(${bgLogin})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          position: 'relative'
+        }}
+      >
+        <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.4)' }} />
+
+        <div
           style={{
-            background: '#CBB8A9',
-            color: '#2E2E2E',
-            border: 'none',
-            padding: '10px 20px',
-            borderRadius: 6,
-            cursor: 'pointer'
+            position: 'relative',
+            zIndex: 2,
+            background: 'rgba(255,255,255,0.15)',
+            backdropFilter: 'blur(10px)',
+            padding: 40,
+            borderRadius: 16,
+            textAlign: 'center',
+            width: 320,
+            color: '#fff'
           }}
         >
-          Entrar
-        </button>
+          <img
+            src={logoImg}
+            alt="Logo"
+            style={{
+              width: 120,
+              marginBottom: 30,
+              animation: 'float 4s ease-in-out infinite'
+            }}
+          />
+
+          <input
+            placeholder="Digite seu telefone"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            style={{
+              width: '100%',
+              padding: 12,
+              borderRadius: 8,
+              border: 'none',
+              marginBottom: 20
+            }}
+          />
+
+          <button
+            onClick={handleLogin}
+            style={{
+              width: '100%',
+              padding: 12,
+              borderRadius: 8,
+              border: 'none',
+              background: '#CBB8A9',
+              color: '#2E2E2E',
+              fontWeight: 600,
+              cursor: 'pointer'
+            }}
+          >
+            Entrar
+          </button>
+        </div>
+
+        <style>
+          {`
+            @keyframes float {
+              0% { transform: translateY(0px); }
+              50% { transform: translateY(-8px); }
+              100% { transform: translateY(0px); }
+            }
+          `}
+        </style>
       </div>
     )
   }
@@ -219,10 +236,10 @@ export default function App() {
       <section style={{ padding: 80, textAlign: 'center', background: '#EFEAE3' }}>
         <h2 style={titleStyle}>Localização da Cerimônia</h2>
         <iframe
-          title="Mapa Cerimônia"
-          src="https://www.google.com/maps?q=Anápolis%20GO&output=embed"
+          title="Capela Santa Rita de Cássia"
+          src="https://www.google.com/maps/embed?pb=!4v1771703944141!6m8!1m7!1s2DbhsdI4Losv9LlRYsLpbw!2m2!1d-16.33166550689643!2d-48.97155490661469!3f243.85395654860645!4f7.229952664397601!5f0.7820865974627469"
           width="80%"
-          height="300"
+          height="350"
           style={{ border: 0, borderRadius: 12, marginTop: 30 }}
           loading="lazy"
         />
@@ -231,16 +248,7 @@ export default function App() {
       {/* PADRINHOS */}
       <section style={{ padding: 80, textAlign: 'center' }}>
         <h2 style={titleStyle}>Padrinhos</h2>
-
-        <img
-          src={ternoImg}
-          alt="Terno Cinza Médio"
-          style={{
-            width: 250,
-            marginBottom: 30
-          }}
-        />
-
+        <img src={ternoImg} alt="Terno Cinza Médio" style={{ width: 250, marginBottom: 30 }} />
         <p>
           Traje: <strong>{PADRINHO.suit}</strong> com gravata <strong>{PADRINHO.tie}</strong>
         </p>
@@ -251,7 +259,6 @@ export default function App() {
         <section style={{ padding: 80, textAlign: 'center', background: '#F1ECE6' }}>
           <h2 style={titleStyle}>Madrinhas</h2>
           <p>Escolha sua cor</p>
-
           <div style={{ display: 'flex', justifyContent: 'center', gap: 12, flexWrap: 'wrap' }}>
             {colors.map(color => (
               <span
@@ -264,8 +271,7 @@ export default function App() {
                   borderRadius: 30,
                   boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
                   cursor: color.selected_by ? 'not-allowed' : 'pointer',
-                  opacity: color.selected_by ? 0.4 : 1,
-                  fontWeight: 500
+                  opacity: color.selected_by ? 0.4 : 1
                 }}
               >
                 {color.color_name}
@@ -292,11 +298,6 @@ export default function App() {
       <section style={{ padding: 80, textAlign: 'center' }}>
         <h2 style={titleStyle}>Lista de Presentes</h2>
 
-        <p style={{ maxWidth: 600, margin: '20px auto' }}>
-          Como já temos nossa casa montada, preferimos receber presentes em dinheiro
-          para realizar nossa viagem dos sonhos.
-        </p>
-
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(4, 1fr)',
@@ -314,11 +315,7 @@ export default function App() {
                 <img
                   src={gift.image_url}
                   alt={gift.name}
-                  style={{
-                    width: '100%',
-                    height: 160,
-                    objectFit: 'cover'
-                  }}
+                  style={{ width: '100%', height: 160, objectFit: 'cover' }}
                 />
               )}
 
@@ -326,19 +323,17 @@ export default function App() {
                 <h4>{gift.name}</h4>
                 <p>R$ {gift.price}</p>
                 <button
-                  disabled={gift.reserved}
-                  onClick={() => reserveGift(gift.id)}
+                  onClick={() => setSelectedGift(gift)}
                   style={{
                     background: '#A8C3B1',
                     color: '#2E2E2E',
                     border: 'none',
                     padding: '10px 18px',
                     borderRadius: 6,
-                    cursor: 'pointer',
-                    opacity: gift.reserved ? 0.5 : 1
+                    cursor: 'pointer'
                   }}
                 >
-                  {gift.reserved ? 'Reservado' : 'Presentear'}
+                  Presentear
                 </button>
               </div>
             </div>
@@ -362,6 +357,66 @@ export default function App() {
           </button>
         </div>
       </section>
+
+      {/* POPUP PIX */}
+      {selectedGift && (
+        <div
+          onClick={() => setSelectedGift(null)}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            background: 'rgba(0,0,0,0.6)',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: 9999
+          }}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              background: '#fff',
+              padding: 40,
+              borderRadius: 16,
+              maxWidth: 420,
+              textAlign: 'center'
+            }}
+          >
+            <h3>🎁 {selectedGift.name}</h3>
+            <p style={{ marginTop: 20 }}>
+              Muito obrigado por nos presentear 💛<br />
+              Sua contribuição será fundamental para realizarmos nossa viagem dos sonhos!
+            </p>
+
+            <div style={{
+              background: '#F5F1EC',
+              padding: 20,
+              borderRadius: 10,
+              marginTop: 25
+            }}>
+              <strong>Chave PIX:</strong>
+              <div style={{ marginTop: 10, fontSize: 18 }}>
+                62991305737
+              </div>
+            </div>
+
+            <button
+              onClick={() => setSelectedGift(null)}
+              style={{
+                marginTop: 25,
+                background: '#CBB8A9',
+                color: '#2E2E2E',
+                border: 'none',
+                padding: '10px 20px',
+                borderRadius: 8,
+                cursor: 'pointer'
+              }}
+            >
+              Fechar
+            </button>
+          </div>
+        </div>
+      )}
 
       <footer style={{ padding: 40, textAlign: 'center' }}>
         Silvio & Lucimar 💍
