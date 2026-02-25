@@ -55,7 +55,7 @@ export default function App() {
   }
 
   useEffect(() => {
-    const weddingDate = new Date('2026-06-15T18:00:00')
+    const weddingDate = new Date('2026-06-20T15:30:00')
     const timer = setInterval(() => {
       const diff = weddingDate - new Date()
       setTimeLeft({
@@ -114,71 +114,85 @@ export default function App() {
     />
   )
 
-  if (!member) {
-    return (
-      <>
-        {fontImport}
+if (!member) {
+  return (
+    <>
+      {fontImport}
+      <div
+        style={{
+          height: '100vh',
+          backgroundImage: `url(${bgLogin})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          position: 'relative',
+          fontFamily: 'Bethany Patmos, cursive'
+        }}
+      >
+        {/* Overlay escuro */}
+        <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.4)' }} />
+
+        {/* LOGO NO TOPO */}
+        <img
+          src={logoImg}
+          alt="Logo"
+          style={{
+            position: 'absolute',
+            top: 30,
+            left: '50%',
+            transform: 'translateX(-50%)',
+            width: 130,
+            zIndex: 3
+          }}
+        />
+
+        {/* CAIXA LOGIN */}
         <div
           style={{
-            height: '100vh',
-            backgroundImage: `url(${bgLogin})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
             position: 'relative',
-            fontFamily: 'Bethany Patmos, cursive'
+            zIndex: 2,
+            background: 'rgba(255,255,255,0.15)',
+            padding: 40,
+            borderRadius: 16,
+            textAlign: 'center',
+            width: 250,
+            color: '#fff'
           }}
         >
-          <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.4)' }} />
-
-          <div
+          <input
+            placeholder="Digite seu telefone"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
             style={{
-              position: 'relative',
-              zIndex: 2,
-              background: 'rgba(255,255,255,0.15)',
-              padding: 40,
-              borderRadius: 16,
-              textAlign: 'center',
-              width: 320,
-              color: '#fff'
+              width: '80%',
+              padding: 12,
+              borderRadius: 8,
+              border: 'none',
+              marginBottom: 20
+            }}
+          />
+
+          <button
+            onClick={handleLogin}
+            style={{
+              width: '50%',
+              padding: 12,
+              borderRadius: 8,
+              border: 'none',
+              background: '#CBB8A9',
+              color: '#2E2E2E',
+              cursor: 'pointer'
             }}
           >
-            <img src={logoImg} alt="Logo" style={{ width: 120, marginBottom: 30 }} />
-
-            <input
-              placeholder="Digite seu telefone"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              style={{
-                width: '100%',
-                padding: 12,
-                borderRadius: 8,
-                border: 'none',
-                marginBottom: 20
-              }}
-            />
-
-            <button
-              onClick={handleLogin}
-              style={{
-                width: '100%',
-                padding: 12,
-                borderRadius: 8,
-                border: 'none',
-                background: '#CBB8A9',
-                color: '#2E2E2E',
-                cursor: 'pointer'
-              }}
-            >
-              Entrar
-            </button>
-          </div>
+            Entrar
+          </button>
         </div>
-      </>
-    )
-  }
+      </div>
+    </>
+  )
+}
 
   return (
     <>
@@ -187,18 +201,26 @@ export default function App() {
       <div style={{ background: '#F9F7F4', color: '#2E2E2E', fontFamily: 'Bethany Patmos, cursive' }}>
 
         {/* HERO */}
-        <section style={{
-          height: '100vh',
-          backgroundImage: `url(${imagemPrincipal})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          position: 'relative',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          textAlign: 'center',
-          color: '#fff'
-        }}>
+        {/* HERO */}
+        {/* HERO */}
+          {/* HERO */}
+          <section
+            style={{
+              height: '100vh',
+              backgroundImage: `url(${imagemPrincipal})`,
+              backgroundSize: 'cover',
+              backgroundPosition: window.innerWidth < 768 
+                ? '37% center'   // mobile (move 10% para direita)
+                : 'center',      // desktop normal
+              backgroundRepeat: 'no-repeat',
+              position: 'relative',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              textAlign: 'center',
+              color: '#fff'
+            }}
+          >
           <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.55)' }} />
 
           <div style={{ position: 'relative', zIndex: 2 }}>
@@ -231,18 +253,37 @@ export default function App() {
           ))}
         </section>
 
-        {/* LOCALIZAÇÃO CERIMÔNIA */}
-        <section style={{ padding: 80, textAlign: 'center', background: '#EFEAE3' }}>
-          <h2>Localização da Cerimônia</h2>
-          <iframe
-            title="Capela Santa Rita de Cássia"
-            src="https://www.google.com/maps/embed?pb=!4v1771703944141!6m8!1m7!1s2DbhsdI4Losv9LlRYsLpbw!2m2!1d-16.33166550689643!2d-48.97155490661469!3f243.85395654860645!4f7.229952664397601!5f0.7820865974627469"
-            width="80%"
-            height="350"
-            style={{ border: 0, borderRadius: 12, marginTop: 30 }}
-            loading="lazy"
-          />
-        </section>
+       {/* LOCALIZAÇÃO CERIMÔNIA */}
+<section style={{ padding: 80, textAlign: 'center', background: '#EFEAE3' }}>
+  <h2 style={{ marginBottom: 30 }}>Localização da Cerimônia</h2>
+
+  <div style={{ marginBottom: 35 }}>
+    <p style={{ fontSize: 20, margin: 5 }}>
+      <strong>Local da cerimônia</strong>
+    </p>
+
+    <p style={{ fontSize: 18, margin: 5 }}>
+      Capela Santa Rita de Cássia
+    </p>
+
+    <p style={{ margin: 5 }}>
+      20 de Junho de 2026
+    </p>
+
+    <p style={{ margin: 5, fontWeight: 600 }}>
+      Às 15:30h
+    </p>
+  </div>
+
+  <iframe
+    title="Capela Santa Rita de Cássia"
+    src="https://www.google.com/maps/embed?pb=!4v1771703944141!6m8!1m7!1s2DbhsdI4Losv9LlRYsLpbw!2m2!1d-16.33166550689643!2d-48.97155490661469!3f243.85395654860645!4f7.229952664397601!5f0.7820865974627469"
+    width="80%"
+    height="350"
+    style={{ border: 0, borderRadius: 12 }}
+    loading="lazy"
+  />
+</section>
 
         {/* PADRINHOS */}
         <section style={{ padding: 80, textAlign: 'center' }}>
@@ -254,11 +295,83 @@ export default function App() {
         </section>
 
         {/* MADRINHAS */}
-        {member.role === 'madrinha' && (
-          <section style={{ padding: 80, textAlign: 'center', background: '#F1ECE6' }}>
-            <h2>Madrinhas</h2>
-            <div style={{ display: 'flex', justifyContent: 'center', gap: 12, flexWrap: 'wrap' }}>
-              {colors.map(color => (
+        {/* MADRINHAS */}
+{member.role === 'madrinha' && (
+  <section style={{ padding: 80, textAlign: 'center', background: '#F1ECE6' }}>
+    <h2>Madrinhas</h2>
+
+    {/* Verifica se já escolheu cor */}
+    {(() => {
+      const minhaCor = colors.find(c => c.selected_by === member.id)
+
+      if (minhaCor) {
+        return (
+          <>
+            <p style={{ marginBottom: 20 }}>
+              Sua cor escolhida:
+            </p>
+
+            <div
+              style={{
+                display: 'inline-block',
+                background: COLOR_MAP[minhaCor.color_name] || '#ddd',
+                color: '#fff',
+                padding: '12px 24px',
+                borderRadius: 30,
+                fontWeight: 600,
+                marginBottom: 20
+              }}
+            >
+              {minhaCor.color_name}
+            </div>
+
+            <br />
+
+            <button
+              onClick={async () => {
+                await supabase
+                  .from('dress_colors')
+                  .update({ selected_by: null })
+                  .eq('id', minhaCor.id)
+
+                const { data } = await supabase
+                  .from('dress_colors')
+                  .select('*')
+
+                setColors(data)
+              }}
+              style={{
+                marginTop: 10,
+                background: '#CBB8A9',
+                border: 'none',
+                padding: '10px 20px',
+                borderRadius: 8,
+                cursor: 'pointer'
+              }}
+            >
+              Mudar cor
+            </button>
+          </>
+        )
+      }
+
+      return (
+        <>
+          <p style={{ marginBottom: 30 }}>
+            Madrinha, escolha a sua cor
+          </p>
+
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              gap: 12,
+              flexWrap: 'wrap'
+            }}
+          >
+            {colors
+              .filter(color => !color.selected_by)
+              .map(color => (
                 <span
                   key={color.id}
                   onClick={() => chooseColor(color.id)}
@@ -268,15 +381,18 @@ export default function App() {
                     padding: '10px 18px',
                     borderRadius: 30,
                     cursor: 'pointer',
-                    opacity: color.selected_by ? 0.4 : 1
+                    fontWeight: 500
                   }}
                 >
                   {color.color_name}
                 </span>
               ))}
-            </div>
-          </section>
-        )}
+          </div>
+        </>
+      )
+    })()}
+  </section>
+)}
 
         {/* LOCALIZAÇÃO FESTA */}
         <section style={{ padding: 80, textAlign: 'center', background: '#EFEAE3' }}>
@@ -296,8 +412,9 @@ export default function App() {
           <h2>Lista de Presentes</h2>
 
           <p style={{ maxWidth: 600, margin: '20px auto' }}>
-            Como já temos nossa casa montada, preferimos receber presentes em dinheiro
-            para realizar nossa viagem dos sonhos.
+            Sua presença é o nosso maior presente! Mas, se quiser nos ajudar à realizar nossa viagem dos sonhos, 
+            ficaremos felizes com uma contribuição via Pix. 
+            (62)99124-9610 ou (62)99286-5457
           </p>
 
           <div style={{
@@ -398,7 +515,7 @@ export default function App() {
               }}>
                 <strong>Chave PIX:</strong>
                 <div style={{ marginTop: 10, fontSize: 18 }}>
-                  62991305737
+                  (62)99124-9610 ou (62)99286-5457
                 </div>
               </div>
 
