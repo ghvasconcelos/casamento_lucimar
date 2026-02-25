@@ -158,7 +158,8 @@ if (!member) {
             borderRadius: 16,
             textAlign: 'center',
             width: 250,
-            color: '#fff'
+            color: '#fff',
+            marginTop: "170px"
           }}
         >
           <input
@@ -205,37 +206,69 @@ if (!member) {
         {/* HERO */}
           {/* HERO */}
           <section
-            style={{
-              height: '100vh',
-              backgroundImage: `url(${imagemPrincipal})`,
-              backgroundSize: 'cover',
-              backgroundPosition: window.innerWidth < 768 
-                ? '37% center'   // mobile (move 10% para direita)
-                : 'center',      // desktop normal
-              backgroundRepeat: 'no-repeat',
-              position: 'relative',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              textAlign: 'center',
-              color: '#fff'
-            }}
-          >
-          <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.55)' }} />
+  style={{
+    height: '100vh',
+    backgroundImage: `url(${imagemPrincipal})`,
+    backgroundSize: 'cover',
+    backgroundPosition: window.innerWidth < 768 
+      ? '37% center'
+      : 'center',
+    backgroundRepeat: 'no-repeat',
+    position: 'relative',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center',
+    color: '#bfbfbf' // verde musgo
+  }}
+>
+  <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.55)' }} />
 
-          <div style={{ position: 'relative', zIndex: 2 }}>
-            <p style={{ letterSpacing: 2 }}>SAVE THE DATE</p>
+  <div
+    style={{
+      position: 'relative',
+      zIndex: 2,
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center'
+    }}
+  >
+    {/* SAVE THE DATE */}
+    <p
+      style={{
+        letterSpacing: 2,
+        transform: 'translateY(-15%)',
+        marginBottom: "280px",
+        color: '#bcbcbc'
+      }}
+    >
+      SAVE THE DATE
+    </p>
 
-            <h1 style={{
-              fontFamily: 'Monsieur La Doulaise, cursive',
-              fontSize: 100
-            }}>
-              Silvio & Lucimar
-            </h1>
+    {/* NOMES */}
+    <h1
+      style={{
+        fontFamily: 'Monsieur La Doulaise, cursive',
+        fontSize: 60,
+        margin: 0,
+        color: '#bcbcbc'
+      }}
+    >
+      Silvio & Lucimar
+    </h1>
 
-            <p>15 de Junho de 2026 • Anápolis - GO</p>
-          </div>
-        </section>
+    {/* DATA */}
+    <p
+      style={{
+        marginTop: "150px",
+        transform: 'translateY(30%)',
+        color: '#bcbcbc'
+      }}
+    >
+      20 de Junho de 2026 • Anápolis - GO
+    </p>
+  </div>
+</section>
 
         {/* CONTAGEM */}
         <section style={{
