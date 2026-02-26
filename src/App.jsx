@@ -445,7 +445,7 @@ if (!member) {
           <h2>Lista de Presentes</h2>
 
           <p style={{ maxWidth: 600, margin: '20px auto' }}>
-            Sua presença é o nosso maior presente! Mas, se quiser nos ajudar à realizar nossa viagem dos sonhos, 
+            Sua presença é o nosso maior presente! Mas, se quiserem nos ajudar à realizar nossa viagem dos sonhos, 
             ficaremos felizes com uma contribuição via Pix. 
             (62)99124-9610 ou (62)99286-5457
           </p>
